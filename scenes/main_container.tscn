@@ -1,0 +1,152 @@
+[gd_scene format=3 uid="uid://bnc4xjfgshuav"]
+
+[ext_resource type="FontFile" uid="uid://d3qns162yi8um" path="res://assets/AltarBold Regular.ttf" id="1_5oqq1"]
+[ext_resource type="Script" uid="uid://c14kpixdmhosb" path="res://scripts/screen_manager.gd" id="2_jor4d"]
+[ext_resource type="Script" uid="uid://clq1pmwlki5m4" path="res://scripts/bg.gd" id="3_5oqq1"]
+[ext_resource type="PackedScene" uid="uid://d0ehsao6yt6ty" path="res://scenes/mod_select_ui.tscn" id="3_jor4d"]
+[ext_resource type="Texture2D" uid="uid://863n51kj4ou" path="res://assets/bg-2.png" id="4_r6svd"]
+[ext_resource type="Shader" uid="uid://b6tvr30doykoi" path="res://assets/vignette.gdshader" id="5_dktcb"]
+[ext_resource type="Texture2D" uid="uid://ba64l6xw2mju3" path="res://assets/bg-3.png" id="6_ectsu"]
+[ext_resource type="Texture2D" uid="uid://c1robnpg0qocm" path="res://assets/bg-4.png" id="7_tvm32"]
+[ext_resource type="Texture2D" uid="uid://dmymng0k8pobq" path="res://assets/bg-1.png" id="8_xholb"]
+
+[sub_resource type="Theme" id="Theme_v4doc"]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_5oqq1")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 12
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_5oqq1")
+LineEdit/font_sizes/font_size = 24
+LineEdit/fonts/font = ExtResource("1_5oqq1")
+MarginContainer/constants/margin_bottom = 24
+MarginContainer/constants/margin_left = 24
+MarginContainer/constants/margin_right = 24
+MarginContainer/constants/margin_top = 24
+RichTextLabel/constants/outline_size = 3
+RichTextLabel/font_sizes/normal_font_size = 96
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mvpvs"]
+shader = ExtResource("5_dktcb")
+shader_parameter/target_color = Color(0.10264634, 0.14644423, 0.10163122, 1)
+shader_parameter/alpha = 0.81
+shader_parameter/inner_radius = -1.145
+shader_parameter/outer_radius = 0.87
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_807dw"]
+shader = ExtResource("5_dktcb")
+shader_parameter/target_color = Color(0.076711066, 0.13592556, 0.2026968, 1)
+shader_parameter/alpha = 0.81
+shader_parameter/inner_radius = -1.145
+shader_parameter/outer_radius = 0.87
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pkbi7"]
+shader = ExtResource("5_dktcb")
+shader_parameter/target_color = Color(0.16089314, 0.12827215, 0.06557917, 1)
+shader_parameter/alpha = 0.81
+shader_parameter/inner_radius = -1.145
+shader_parameter/outer_radius = 0.87
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a3dns"]
+shader = ExtResource("5_dktcb")
+shader_parameter/target_color = Color(0.1878869, 0.11255919, 0.085578166, 1)
+shader_parameter/alpha = 0.81
+shader_parameter/inner_radius = -1.145
+shader_parameter/outer_radius = 0.87
+
+[node name="Installer" type="Control" unique_id=17626593]
+z_index = 5
+custom_minimum_size = Vector2(640, 480)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_v4doc")
+script = ExtResource("2_jor4d")
+
+[node name="BG" type="PanelContainer" parent="." unique_id=245026127]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_5oqq1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Picture1" type="Control" parent="BG" unique_id=562733889]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BG/Picture1" unique_id=1026747761]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+texture = ExtResource("4_r6svd")
+
+[node name="ColorRect" type="ColorRect" parent="BG/Picture1" unique_id=196124544]
+material = SubResource("ShaderMaterial_mvpvs")
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="Picture2" type="Control" parent="BG" unique_id=1320007781]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="BG/Picture2" unique_id=1690025446]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+texture = ExtResource("6_ectsu")
+
+[node name="ColorRect2" type="ColorRect" parent="BG/Picture2" unique_id=1825772669]
+material = SubResource("ShaderMaterial_807dw")
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="Picture3" type="Control" parent="BG" unique_id=544926261]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="BG/Picture3" unique_id=317447483]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+texture = ExtResource("7_tvm32")
+
+[node name="ColorRect3" type="ColorRect" parent="BG/Picture3" unique_id=64506744]
+material = SubResource("ShaderMaterial_pkbi7")
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="Picture4" type="Control" parent="BG" unique_id=1989875898]
+layout_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="BG/Picture4" unique_id=1031453381]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+texture = ExtResource("8_xholb")
+
+[node name="ColorRect4" type="ColorRect" parent="BG/Picture4" unique_id=1355394125]
+material = SubResource("ShaderMaterial_a3dns")
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="Timer" type="Timer" parent="BG" unique_id=1286067716]
+wait_time = 10.0
+autostart = true
+
+[node name="mod_select" parent="." unique_id=1582032466 instance=ExtResource("3_jor4d")]
+layout_mode = 1
+
+[connection signal="timeout" from="BG/Timer" to="BG" method="_on_timer_timeout"]
+
+[editable path="mod_select"]

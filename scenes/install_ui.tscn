@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://b72kvxr5efqv8"]
+
+[ext_resource type="Script" uid="uid://cgih26jj5f6b8" path="res://scripts/installer.gd" id="1_1gagv"]
+[ext_resource type="FontFile" uid="uid://bb24up40ej2kv" path="res://assets/NotoSansSymbols-VariableFont_wght.ttf" id="2_31ebj"]
+[ext_resource type="StyleBox" uid="uid://bu0pnyn5622bh" path="res://assets/invisible_separator.tres" id="3_31ebj"]
+
+[node name="MarginContainer" type="MarginContainer" unique_id=1108670870 groups=["screen"]]
+z_index = 5
+anchors_preset = -1
+anchor_left = -0.00390625
+anchor_right = 1.0039063
+anchor_bottom = 1.0
+offset_left = 2.5
+offset_right = -2.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1gagv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Stars" type="Control" parent="." unique_id=1709119949]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Star0" type="RichTextLabel" parent="Stars" unique_id=1644166538]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.17336681
+anchor_top = 0.4421297
+anchor_right = -0.17336681
+anchor_bottom = 0.45138896
+offset_left = 164.99998
+offset_top = 89.99997
+offset_right = 242.99998
+offset_bottom = 218.99997
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star1" type="RichTextLabel" parent="Stars" unique_id=554923393]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.24036852
+anchor_top = 0.3564815
+anchor_right = -0.24036852
+anchor_bottom = 0.5162037
+offset_left = 292.0
+offset_top = 44.0
+offset_right = 370.0
+offset_bottom = 173.0
+theme_override_fonts/normal_font = ExtResource("2_31ebj")
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star2" type="RichTextLabel" parent="Stars" unique_id=219120412]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23701842
+anchor_top = 0.5
+anchor_right = -0.23701842
+anchor_bottom = 0.5092593
+offset_left = 341.0
+offset_top = 101.0
+offset_right = 419.0
+offset_bottom = 230.0
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=750484300]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1603698720]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=204031302]
+layout_mode = 2
+text = "Nophenia mod manager"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer" unique_id=232300020]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("3_31ebj")
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1487763974]
+layout_mode = 2
+text = "Original Game Location:"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer" unique_id=1850656031]
+layout_mode = 2
+
+[node name="OrigGameLine" type="LineEdit" parent="VBoxContainer/HBoxContainer4" unique_id=1438401243]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+
+[node name="OrigButton" type="Button" parent="VBoxContainer/HBoxContainer4" unique_id=1471967738]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🗀"
+
+[node name="OrigFD" type="FileDialog" parent="VBoxContainer/HBoxContainer4/OrigButton" unique_id=265226840]
+unique_name_in_owner = true
+title = "Open a Directory"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1432276465]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=903923696]
+layout_mode = 2
+tooltip_text = "Overriding original game location is not recommended"
+mouse_filter = 0
+text = "Patched Game Location:"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=1505030020]
+layout_mode = 2
+
+[node name="PatchedGameLine" type="LineEdit" parent="VBoxContainer/HBoxContainer3" unique_id=1453452108]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+
+[node name="PatchedButton" type="Button" parent="VBoxContainer/HBoxContainer3" unique_id=1681439472]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🗀"
+
+[node name="PatchedFD" type="FileDialog" parent="VBoxContainer/HBoxContainer3/PatchedButton" unique_id=300235126]
+unique_name_in_owner = true
+title = "Open a Directory"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=1464562310]
+layout_mode = 2
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer" unique_id=1549685193]
+layout_mode = 2
+alignment = 2
+
+[node name="DesktopShortcutButton" type="CheckBox" parent="VBoxContainer/HBoxContainer6" unique_id=499129821]
+unique_name_in_owner = true
+layout_mode = 2
+layout_direction = 3
+text = "Add Desktop Shortcut"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer" unique_id=1871494581]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+alignment = 2
+
+[node name="ExperimentalButton" type="CheckBox" parent="VBoxContainer/HBoxContainer5" unique_id=243766909]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+layout_direction = 3
+tooltip_text = "don't judge"
+text = "Add experimental stuff"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1680347590]
+layout_mode = 2
+alignment = 2
+
+[node name="InstallButton" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=1015225430]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 80)
+layout_mode = 2
+disabled = true
+text = "Install"
+
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer4/OrigGameLine" to="." method="_on_orig_game_line_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer4/OrigButton" to="." method="_on_orig_button_pressed"]
+[connection signal="dir_selected" from="VBoxContainer/HBoxContainer4/OrigButton/OrigFD" to="." method="_on_orig_fd_dir_selected"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer3/PatchedGameLine" to="." method="_on_patched_game_line_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer3/PatchedButton" to="." method="_on_patched_button_pressed"]
+[connection signal="dir_selected" from="VBoxContainer/HBoxContainer3/PatchedButton/PatchedFD" to="." method="_on_patched_fd_dir_selected"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer6/DesktopShortcutButton" to="." method="_on_desktop_icon_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/InstallButton" to="." method="_on_install_button_pressed"]

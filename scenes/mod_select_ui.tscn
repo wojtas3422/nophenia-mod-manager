@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://d0ehsao6yt6ty"]
+
+[ext_resource type="StyleBox" uid="uid://bu0pnyn5622bh" path="res://assets/invisible_separator.tres" id="1_0d2j3"]
+[ext_resource type="FontFile" uid="uid://bb24up40ej2kv" path="res://assets/NotoSansSymbols-VariableFont_wght.ttf" id="1_5byek"]
+[ext_resource type="Script" uid="uid://dqie0mhws12ib" path="res://scripts/mod_index.gd" id="1_akp01"]
+
+[node name="mod_select" type="MarginContainer" unique_id=1582032466 node_paths=PackedStringArray("mod_container") groups=["screen"]]
+z_index = 5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_akp01")
+mod_container = NodePath("VBoxContainer/ScrollContainer/ModContainer")
+
+[node name="Stars" type="Control" parent="." unique_id=452281745]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Star0" type="RichTextLabel" parent="Stars" unique_id=1076912230]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.17336681
+anchor_top = 0.4421297
+anchor_right = -0.17336681
+anchor_bottom = 0.45138896
+offset_left = 164.99998
+offset_top = 89.99997
+offset_right = 242.99998
+offset_bottom = 218.99997
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star1" type="RichTextLabel" parent="Stars" unique_id=914741822]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.24036852
+anchor_top = 0.3564815
+anchor_right = -0.24036852
+anchor_bottom = 0.5162037
+offset_left = 292.0
+offset_top = 44.0
+offset_right = 370.0
+offset_bottom = 173.0
+theme_override_fonts/normal_font = ExtResource("1_5byek")
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star2" type="RichTextLabel" parent="Stars" unique_id=1920663900]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23701842
+anchor_top = 0.5
+anchor_right = -0.23701842
+anchor_bottom = 0.5092593
+offset_left = 341.0
+offset_top = 101.0
+offset_right = 419.0
+offset_bottom = 230.0
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1305608649]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1728864731]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=271655014]
+layout_mode = 2
+text = "Nophenia mod manager"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer" unique_id=1542087549]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("1_0d2j3")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=992223617]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=1450193744]
+layout_mode = 2
+text = "Pick mods to install"
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer" unique_id=1844667963]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1620772571]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ModContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=597873830]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Placeholder" type="Label" parent="VBoxContainer/ScrollContainer/ModContainer" unique_id=132456104]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fetching index..."
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=74733633]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = ExtResource("1_0d2j3")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=781383238]
+layout_mode = 2
+alignment = 2
+
+[node name="NextButton" type="Button" parent="VBoxContainer/HBoxContainer3" unique_id=19559082]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 80)
+layout_mode = 2
+text = "Next"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=697344335]
+unique_name_in_owner = true
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_request_completed"]

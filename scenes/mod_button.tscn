@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cxsioghsqdfkc"]
+
+[ext_resource type="Script" uid="uid://b3haf1upjpc3h" path="res://scripts/mod_button_constructor.gd" id="1_e4ms1"]
+
+[node name="mod_button" type="HBoxContainer" unique_id=740857981]
+alignment = 1
+script = ExtResource("1_e4ms1")
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=1704836302]
+layout_mode = 2
+button_pressed = true
+
+[node name="mod_name" type="Label" parent="." unique_id=269616173]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "title"
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="." unique_id=2091709385]
+layout_mode = 2
+
+[node name="author" type="Label" parent="." unique_id=1977894341]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "author"
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="." unique_id=1541003752]
+layout_mode = 2
+
+[node name="description" type="Label" parent="." unique_id=263001461]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "description"
+vertical_alignment = 1
+autowrap_mode = 3
