@@ -1,8 +1,10 @@
 extends Control
 
-@onready var next_button: Button = $mod_select/VBoxContainer/HBoxContainer3/NextButton
-var screens: Array[String] = ["install_ui.tscn"]
+@export var next_button: Button
+var screens: Array[String] = ["mod_select_ui.tscn"]
 var current_screen: int = -1
+
+
 
 func _ready() -> void:
 	next_button.connect("pressed", _on_next_screen)

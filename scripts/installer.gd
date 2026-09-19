@@ -8,26 +8,32 @@ extends Control
 @onready var patched_fd: FileDialog = %PatchedFD
 @onready var desktop_shortcut_button: CheckBox = %DesktopShortcutButton
 @onready var experimental_button: CheckBox = %ExperimentalButton
+@onready var next_button: Button = %NextButton
 @onready var install_button: Button = %InstallButton
 @onready var star_0: RichTextLabel = %Star0
 @onready var star_1: RichTextLabel = %Star1
 @onready var star_2: RichTextLabel = %Star2
+@onready var path_select_screen: MarginContainer = %path_select
+@onready var mod_select_screen: MarginContainer = %mod_select
+@onready var mod_downloader: HTTPRequest = %ModDownloader
+signal mod_download_complete
+
 
 var counter := 0
 var valid_orig := false:
 	set(value):
 		valid_orig = value
 		if valid_orig and valid_patched:
-			install_button.disabled = false
+			next_button.disabled = false
 		else:
-			install_button.disabled = true
+			next_button.disabled = true
 var valid_patched := false:
 	set(value):
 		valid_patched = value
 		if valid_orig and valid_patched:
-			install_button.disabled = false
+			next_button.disabled = false
 		else:
-			install_button.disabled = true
+			next_button.disabled = true
 
 func _ready() -> void:
 	orig_game_line.text = find_steam_game_path()
@@ -103,10 +109,10 @@ func _on_orig_game_line_text_changed(new_text: String) -> void:
 
 func _on_patched_game_line_text_changed(new_text: String) -> void:
 	if DirAccess.dir_exists_absolute(new_text):
-		star_1.text = _replace_color(star_0.text, "white")
+		#star_1.text = _replace_color(star_0.text, "white")
 		valid_patched = true
 	else:
-		star_1.text = _replace_color(star_0.text, "#818589")
+		#star_1.text = _replace_color(star_0.text, "#818589")
 		valid_patched = false
 
 func _copy_files(from: String, to: String) -> void:
@@ -196,9 +202,28 @@ func _create_desktop_shortcut() -> void:
 func _add_experimental_stuff() -> void:
 	pass # TODO
 
+func _collect_mod_urls() -> Array[String]:
+	var mods_container = %ModContainer
+	var mod_download_urls: Array[String]
+	
+	for mod in mods_container.get_children():
+		if mod.find_child("CheckBox").button_pressed:
+			mod_download_urls.append(mod.download_url)
+	
+	return mod_download_urls
+
+
+
 func _on_install_button_pressed() -> void:
 	install_button.disabled = true
-	
+	var mod_download_urls: Array[String] = _collect_mod_urls()
+	for url in mod_download_urls:
+		var filename = url.split("/")[-1]
+		mod_downloader.download_file = ProjectSettings.globalize_path("res://mod_loader_artifacts/mods".path_join(filename))
+		mod_downloader.request(url)
+		await mod_download_complete
+		
+		
 	var extracted:= _extract()
 	if not extracted:
 		return
@@ -215,7 +240,7 @@ func _on_install_button_pressed() -> void:
 		_add_experimental_stuff()
 	OS.alert("Success!", "Patch status")
 	
-	install_button.disabled = false
+	next_button.disabled = false
 	star_2.text = "[wave amp=60.0 freq=1 connected=1]✦"
 
 func _extra_check():
@@ -225,3 +250,12 @@ func _extra_check():
 func _on_desktop_shortcut_button_pressed() -> void:
 	counter += 1
 	_extra_check()
+
+
+func _on_next_button_pressed() -> void:
+	path_select_screen.visible = false
+	mod_select_screen.visible = true
+
+
+func _on_mod_downloader_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	mod_download_complete.emit()

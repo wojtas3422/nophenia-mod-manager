@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://d0ehsao6yt6ty"]
+[gd_scene format=3 uid="uid://d4mrtyq8a7b2k"]
 
 [ext_resource type="StyleBox" uid="uid://bu0pnyn5622bh" path="res://assets/invisible_separator.tres" id="1_0d2j3"]
 [ext_resource type="FontFile" uid="uid://bb24up40ej2kv" path="res://assets/NotoSansSymbols-VariableFont_wght.ttf" id="1_5byek"]
@@ -112,7 +112,6 @@ text = "Fetching index..."
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=74733633]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_styles/separator = ExtResource("1_0d2j3")
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=781383238]

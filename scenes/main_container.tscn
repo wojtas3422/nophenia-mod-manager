@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://bnc4xjfgshuav"]
 
 [ext_resource type="FontFile" uid="uid://d3qns162yi8um" path="res://assets/AltarBold Regular.ttf" id="1_5oqq1"]
-[ext_resource type="Script" uid="uid://c14kpixdmhosb" path="res://scripts/screen_manager.gd" id="2_jor4d"]
+[ext_resource type="Script" uid="uid://cgih26jj5f6b8" path="res://scripts/installer.gd" id="2_jor4d"]
 [ext_resource type="Script" uid="uid://clq1pmwlki5m4" path="res://scripts/bg.gd" id="3_5oqq1"]
-[ext_resource type="PackedScene" uid="uid://d0ehsao6yt6ty" path="res://scenes/mod_select_ui.tscn" id="3_jor4d"]
 [ext_resource type="Texture2D" uid="uid://863n51kj4ou" path="res://assets/bg-2.png" id="4_r6svd"]
 [ext_resource type="Shader" uid="uid://b6tvr30doykoi" path="res://assets/vignette.gdshader" id="5_dktcb"]
 [ext_resource type="Texture2D" uid="uid://ba64l6xw2mju3" path="res://assets/bg-3.png" id="6_ectsu"]
 [ext_resource type="Texture2D" uid="uid://c1robnpg0qocm" path="res://assets/bg-4.png" id="7_tvm32"]
 [ext_resource type="Texture2D" uid="uid://dmymng0k8pobq" path="res://assets/bg-1.png" id="8_xholb"]
+[ext_resource type="FontFile" uid="uid://bb24up40ej2kv" path="res://assets/NotoSansSymbols-VariableFont_wght.ttf" id="9_5olki"]
+[ext_resource type="StyleBox" uid="uid://bu0pnyn5622bh" path="res://assets/invisible_separator.tres" id="10_r6svd"]
+[ext_resource type="Script" uid="uid://dqie0mhws12ib" path="res://scripts/mod_index.gd" id="11_r6svd"]
 
 [sub_resource type="Theme" id="Theme_v4doc"]
 Button/font_sizes/font_size = 32
@@ -144,9 +146,309 @@ offset_bottom = 480.0
 wait_time = 10.0
 autostart = true
 
-[node name="mod_select" parent="." unique_id=1582032466 instance=ExtResource("3_jor4d")]
+[node name="path_select" type="MarginContainer" parent="." unique_id=1108670870 groups=["screen"]]
+unique_name_in_owner = true
+z_index = 5
+layout_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Stars" type="Control" parent="path_select" unique_id=1709119949]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Star0" type="RichTextLabel" parent="path_select/Stars" unique_id=1644166538]
+unique_name_in_owner = true
 layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.17336681
+anchor_top = 0.4421297
+anchor_right = -0.17336681
+anchor_bottom = 0.45138896
+offset_left = 164.99998
+offset_top = 89.99997
+offset_right = 242.99998
+offset_bottom = 218.99997
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star1" type="RichTextLabel" parent="path_select/Stars" unique_id=554923393]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.24036852
+anchor_top = 0.3564815
+anchor_right = -0.24036852
+anchor_bottom = 0.5162037
+offset_left = 292.0
+offset_top = 44.0
+offset_right = 370.0
+offset_bottom = 173.0
+theme_override_fonts/normal_font = ExtResource("9_5olki")
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star2" type="RichTextLabel" parent="path_select/Stars" unique_id=219120412]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23701842
+anchor_top = 0.5
+anchor_right = -0.23701842
+anchor_bottom = 0.5092593
+offset_left = 341.0
+offset_top = 101.0
+offset_right = 419.0
+offset_bottom = 230.0
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="path_select" unique_id=750484300]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="path_select/VBoxContainer" unique_id=1603698720]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="path_select/VBoxContainer/HBoxContainer" unique_id=204031302]
+layout_mode = 2
+text = "nophenia mod manager"
+
+[node name="HSeparator3" type="HSeparator" parent="path_select/VBoxContainer" unique_id=232300020]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("10_r6svd")
+
+[node name="Label" type="Label" parent="path_select/VBoxContainer" unique_id=1487763974]
+layout_mode = 2
+text = "Original Game Location:"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="path_select/VBoxContainer" unique_id=1850656031]
+layout_mode = 2
+
+[node name="OrigGameLine" type="LineEdit" parent="path_select/VBoxContainer/HBoxContainer4" unique_id=1438401243]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+
+[node name="OrigButton" type="Button" parent="path_select/VBoxContainer/HBoxContainer4" unique_id=1471967738]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🗀"
+
+[node name="OrigFD" type="FileDialog" parent="path_select/VBoxContainer/HBoxContainer4/OrigButton" unique_id=265226840]
+unique_name_in_owner = true
+title = "Open a Directory"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="HSeparator" type="HSeparator" parent="path_select/VBoxContainer" unique_id=1432276465]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="path_select/VBoxContainer" unique_id=903923696]
+layout_mode = 2
+tooltip_text = "Overriding original game location is not recommended"
+mouse_filter = 0
+text = "Patched Game Location:"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="path_select/VBoxContainer" unique_id=1505030020]
+layout_mode = 2
+
+[node name="PatchedGameLine" type="LineEdit" parent="path_select/VBoxContainer/HBoxContainer3" unique_id=1453452108]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+
+[node name="PatchedButton" type="Button" parent="path_select/VBoxContainer/HBoxContainer3" unique_id=1681439472]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🗀"
+
+[node name="PatchedFD" type="FileDialog" parent="path_select/VBoxContainer/HBoxContainer3/PatchedButton" unique_id=300235126]
+unique_name_in_owner = true
+title = "Open a Directory"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="HSeparator2" type="HSeparator" parent="path_select/VBoxContainer" unique_id=1464562310]
+layout_mode = 2
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="path_select/VBoxContainer" unique_id=1549685193]
+layout_mode = 2
+alignment = 2
+
+[node name="DesktopShortcutButton" type="CheckBox" parent="path_select/VBoxContainer/HBoxContainer6" unique_id=499129821]
+unique_name_in_owner = true
+layout_mode = 2
+layout_direction = 3
+text = "Add Desktop Shortcut"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="path_select/VBoxContainer" unique_id=1871494581]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+alignment = 2
+
+[node name="ExperimentalButton" type="CheckBox" parent="path_select/VBoxContainer/HBoxContainer5" unique_id=243766909]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+layout_direction = 3
+tooltip_text = "don't judge"
+text = "Add experimental stuff"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="path_select/VBoxContainer" unique_id=1680347590]
+layout_mode = 2
+alignment = 2
+
+[node name="NextButton" type="Button" parent="path_select/VBoxContainer/HBoxContainer2" unique_id=1015225430]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 80)
+layout_mode = 2
+disabled = true
+text = "Next"
+
+[node name="mod_select" type="MarginContainer" parent="." unique_id=1582032466 node_paths=PackedStringArray("mod_container") groups=["screen"]]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_r6svd")
+mod_container = NodePath("VBoxContainer/ScrollContainer/ModContainer")
+
+[node name="Stars" type="Control" parent="mod_select" unique_id=452281745]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Star0" type="RichTextLabel" parent="mod_select/Stars" unique_id=1076912230]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.17336681
+anchor_top = 0.4421297
+anchor_right = -0.17336681
+anchor_bottom = 0.45138896
+offset_left = 164.99998
+offset_top = 89.99997
+offset_right = 242.99998
+offset_bottom = 218.99997
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star1" type="RichTextLabel" parent="mod_select/Stars" unique_id=914741822]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.24036852
+anchor_top = 0.3564815
+anchor_right = -0.24036852
+anchor_bottom = 0.5162037
+offset_left = 292.0
+offset_top = 44.0
+offset_right = 370.0
+offset_bottom = 173.0
+theme_override_fonts/normal_font = ExtResource("9_5olki")
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Star2" type="RichTextLabel" parent="mod_select/Stars" unique_id=1920663900]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23701842
+anchor_top = 0.5
+anchor_right = -0.23701842
+anchor_bottom = 0.5092593
+offset_left = 341.0
+offset_top = 101.0
+offset_right = 419.0
+offset_bottom = 230.0
+bbcode_enabled = true
+text = "[color=#818589][wave amp=60.0 freq=1 connected=1]✦"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="mod_select" unique_id=1305608649]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="mod_select/VBoxContainer" unique_id=1728864731]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="mod_select/VBoxContainer/HBoxContainer" unique_id=271655014]
+layout_mode = 2
+text = "nophenia mod manager"
+
+[node name="HSeparator3" type="HSeparator" parent="mod_select/VBoxContainer" unique_id=1542087549]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("10_r6svd")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="mod_select/VBoxContainer" unique_id=992223617]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="mod_select/VBoxContainer/HBoxContainer2" unique_id=1450193744]
+layout_mode = 2
+text = "Pick mods to install"
+
+[node name="HSeparator4" type="HSeparator" parent="mod_select/VBoxContainer" unique_id=1844667963]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="mod_select/VBoxContainer" unique_id=1620772571]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ModContainer" type="VBoxContainer" parent="mod_select/VBoxContainer/ScrollContainer" unique_id=597873830]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Placeholder" type="Label" parent="mod_select/VBoxContainer/ScrollContainer/ModContainer" unique_id=132456104]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fetching index..."
+
+[node name="HSeparator" type="HSeparator" parent="mod_select/VBoxContainer" unique_id=74733633]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = ExtResource("10_r6svd")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="mod_select/VBoxContainer" unique_id=781383238]
+layout_mode = 2
+alignment = 2
+
+[node name="InstallButton" type="Button" parent="mod_select/VBoxContainer/HBoxContainer3" unique_id=19559082]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 80)
+layout_mode = 2
+text = "Install"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="mod_select" unique_id=697344335]
+unique_name_in_owner = true
+
+[node name="ModDownloader" type="HTTPRequest" parent="." unique_id=1448101922]
+unique_name_in_owner = true
 
 [connection signal="timeout" from="BG/Timer" to="BG" method="_on_timer_timeout"]
-
-[editable path="mod_select"]
+[connection signal="text_changed" from="path_select/VBoxContainer/HBoxContainer4/OrigGameLine" to="." method="_on_orig_game_line_text_changed"]
+[connection signal="pressed" from="path_select/VBoxContainer/HBoxContainer4/OrigButton" to="." method="_on_orig_button_pressed"]
+[connection signal="dir_selected" from="path_select/VBoxContainer/HBoxContainer4/OrigButton/OrigFD" to="." method="_on_orig_fd_dir_selected"]
+[connection signal="text_changed" from="path_select/VBoxContainer/HBoxContainer3/PatchedGameLine" to="." method="_on_patched_game_line_text_changed"]
+[connection signal="pressed" from="path_select/VBoxContainer/HBoxContainer3/PatchedButton" to="." method="_on_patched_button_pressed"]
+[connection signal="dir_selected" from="path_select/VBoxContainer/HBoxContainer3/PatchedButton/PatchedFD" to="." method="_on_patched_fd_dir_selected"]
+[connection signal="pressed" from="path_select/VBoxContainer/HBoxContainer6/DesktopShortcutButton" to="." method="_on_desktop_shortcut_button_pressed"]
+[connection signal="pressed" from="path_select/VBoxContainer/HBoxContainer2/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="mod_select/VBoxContainer/HBoxContainer3/InstallButton" to="." method="_on_install_button_pressed"]
+[connection signal="request_completed" from="mod_select/HTTPRequest" to="mod_select" method="_on_request_completed"]
+[connection signal="request_completed" from="ModDownloader" to="." method="_on_mod_downloader_request_completed"]
