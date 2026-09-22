@@ -16,10 +16,15 @@ extends Control
 @onready var path_select_screen: MarginContainer = %path_select
 @onready var mod_select_screen: MarginContainer = %mod_select
 @onready var mod_downloader: HTTPRequest = %ModDownloader
+var already_patched: bool
+var config = ConfigFile.new()
+
+var config_file_path = ProjectSettings.globalize_path("res://config.ini")
+
 signal mod_download_complete
 
-
 var counter := 0
+
 var valid_orig := false:
 	set(value):
 		valid_orig = value
@@ -38,6 +43,13 @@ var valid_patched := false:
 func _ready() -> void:
 	orig_game_line.text = find_steam_game_path()
 	_on_orig_game_line_text_changed(orig_game_line.text)
+	var err = config.load(ProjectSettings.globalize_path("res://config.ini"))
+	
+	if err != OK:
+		OS.alert("Failed to load loader config", "Error!")
+		get_tree().quit() # TODO don't exit if the index fails
+	
+	patched_game_line.text = config.get_value("Settings", "last_patched_path")
 
 func find_steam_game_path() -> String:
 	var steam_path := ""
@@ -108,9 +120,15 @@ func _on_orig_game_line_text_changed(new_text: String) -> void:
 		valid_orig = false
 
 func _on_patched_game_line_text_changed(new_text: String) -> void:
-	if DirAccess.dir_exists_absolute(new_text):
+	if new_text != "" and DirAccess.dir_exists_absolute(new_text):
 		#star_1.text = _replace_color(star_0.text, "white")
 		valid_patched = true
+		if DirAccess.dir_exists_absolute(new_text.path_join("mods")):
+			already_patched = true
+			%InstallButton.text = "Modify"
+		else:
+			already_patched = false
+			%InstallButton.text = "Install"
 	else:
 		#star_1.text = _replace_color(star_0.text, "#818589")
 		valid_patched = false
@@ -215,32 +233,63 @@ func _collect_mod_urls() -> Array[String]:
 
 
 func _on_install_button_pressed() -> void:
+	var mods_storage_folder = ProjectSettings.globalize_path("res://mod_loader_artifacts/mods")
+	var target_install_mods_folder = patched_game_line.text.path_join("mods")
 	install_button.disabled = true
-	var mod_download_urls: Array[String] = _collect_mod_urls()
-	for url in mod_download_urls:
-		var filename = url.split("/")[-1]
-		mod_downloader.download_file = ProjectSettings.globalize_path("res://mod_loader_artifacts/mods".path_join(filename))
-		mod_downloader.request(url)
-		await mod_download_complete
+	if already_patched:
+		# Patched
+		#var mod_index_files: Array[String]
+		#for file in %mod_select.mod_files:
+			
+		#var local_files: Array[String] = DirAccess.get_files_at(patched_game_line.text.path_join("mods"))
+		#var files_to_delete: Array[String]
+		# TODO don't delete local mods
+		for file in DirAccess.get_files_at(patched_game_line.text.path_join("mods")):
+			if file.get_extension() == "zip": # fail safe in case something goes wrong, delete only zip files
+				DirAccess.remove_absolute(target_install_mods_folder.path_join(file))
+
+		var mod_download_urls: Array[String] = _collect_mod_urls()
+		for url in mod_download_urls:
+			var filename = url.split("/")[-1]
+			mod_downloader.download_file = target_install_mods_folder.path_join(filename)
+			mod_downloader.request(url)
+			await mod_download_complete
 		
+		_copy_files(mods_storage_folder, patched_game_line.text.path_join("mods"))
+		OS.alert("Game modified succesfully.", "Patch status")
+	else:
+		# Not patched
+		if !%Placeholder.visible: # Placeholder is only hidden once the index loads, it's only visible once index loading goes wrong 
+			var mod_download_urls: Array[String] = _collect_mod_urls()
+			for url in mod_download_urls:
+				var filename = url.split("/")[-1]
+				mod_downloader.download_file = ProjectSettings.globalize_path("res://mod_loader_artifacts/mods".path_join(filename))
+				mod_downloader.request(url)
+				await mod_download_complete
+			
+		var extracted:= _extract()
+		if not extracted:
+			return
+		_copy_files(orig_game_line.text, patched_game_line.text)
+		_copy_recursive(ProjectSettings.globalize_path("res://mod_loader_artifacts"), patched_game_line.text)
+		_merge_cfg_lists(
+			patched_game_line.text.path_join("godot").path_join("global_script_class_cache.cfg"),
+			ProjectSettings.globalize_path("res://mod_loader_globals.cfg")
+		)
+		_change_icon()
+		if desktop_shortcut_button.button_pressed:
+			_create_desktop_shortcut()
+		if experimental_button.button_pressed:
+			_add_experimental_stuff()
 		
-	var extracted:= _extract()
-	if not extracted:
-		return
-	_copy_files(orig_game_line.text, patched_game_line.text)
-	_copy_recursive(ProjectSettings.globalize_path("res://mod_loader_artifacts"), patched_game_line.text)
-	_merge_cfg_lists(
-		patched_game_line.text.path_join("godot").path_join("global_script_class_cache.cfg"),
-		ProjectSettings.globalize_path("res://mod_loader_globals.cfg")
-	)
-	_change_icon()
-	if desktop_shortcut_button.button_pressed:
-		_create_desktop_shortcut()
-	if experimental_button.button_pressed:
-		_add_experimental_stuff()
-	OS.alert("Success!", "Patch status")
+		for file in DirAccess.get_files_at(mods_storage_folder):
+			if file.get_extension() == "zip": # fail safe in case something goes wrong, delete only zip files
+				DirAccess.remove_absolute(mods_storage_folder.path_join(file))
+		
+		OS.alert("Success!", "Patch status")
 	
-	next_button.disabled = false
+	config.set_value("Settings", "last_patched_path", patched_game_line.text)
+	config.save(config_file_path)
 	star_2.text = "[wave amp=60.0 freq=1 connected=1]✦"
 
 func _extra_check():
@@ -251,10 +300,18 @@ func _on_desktop_shortcut_button_pressed() -> void:
 	counter += 1
 	_extra_check()
 
-
 func _on_next_button_pressed() -> void:
-	path_select_screen.visible = false
-	mod_select_screen.visible = true
+	if orig_game_line.text == patched_game_line.text and !already_patched:
+		OS.alert("Patching the original install is not recommended as it is known to cause issues. Please pick a different directory for the patched game. Or press next to install anyway", "Warning")
+	else:
+		if already_patched:
+			var mod_files: PackedStringArray = DirAccess.get_files_at(patched_game_line.text.path_join("mods"))
+			var mod_index_container = %ModContainer
+			for mod in mod_index_container.get_children():
+				if mod.download_url.split("/")[-1] in mod_files:
+					mod.find_child("CheckBox").button_pressed = true
+		path_select_screen.visible = false
+		mod_select_screen.visible = true
 
 
 func _on_mod_downloader_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:

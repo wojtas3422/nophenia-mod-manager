@@ -110,10 +110,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Fetching index..."
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=74733633]
-layout_mode = 2
-theme_override_styles/separator = ExtResource("1_0d2j3")
-
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=781383238]
 layout_mode = 2
 alignment = 2

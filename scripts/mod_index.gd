@@ -1,6 +1,7 @@
 extends Node
 
 @export var mod_container: VBoxContainer
+var mod_files: Array[String]
 var config = ConfigFile.new()
 var mods_data: Variant
 
@@ -9,7 +10,7 @@ func _ready():
 	
 	if err != OK:
 		OS.alert("Failed to load mod index url", "Error!")
-		get_tree().quit()
+		get_tree().quit() # TODO don't exit if the index fails
 	
 	var index_url: String = config.get_value("Settings", "index_url")
 	
@@ -17,8 +18,7 @@ func _ready():
 
 func _on_request_completed(result, response_code, headers, body) -> void:
 	if response_code != 200:
-		OS.alert("Failed to fetch index.", "Error")
-		get_tree().quit() #implement later: skip the screen instead of exiting the app.
+		%Placeholder.text = "Failed to fetch index, restart the app to try refetching it.\nPress install to install the mod loader without mods."
 		
 		return
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -34,3 +34,4 @@ func _construct_mod_list(mods) -> void:
 		mod_button_instance.mod_name = mod["mod_name"]
 		mod_button_instance.description = mod["description"]
 		mod_container.add_child(mod_button_instance)
+		mod_files.append(mod["download_url"].split("/")[-1])

@@ -150,7 +150,6 @@ autostart = true
 unique_name_in_owner = true
 z_index = 5
 layout_mode = 0
-metadata/_edit_use_anchors_ = true
 
 [node name="Stars" type="Control" parent="path_select" unique_id=1709119949]
 layout_mode = 2
@@ -421,7 +420,6 @@ text = "Fetching index..."
 
 [node name="HSeparator" type="HSeparator" parent="mod_select/VBoxContainer" unique_id=74733633]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_styles/separator = ExtResource("10_r6svd")
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="mod_select/VBoxContainer" unique_id=781383238]
