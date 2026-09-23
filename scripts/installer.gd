@@ -18,7 +18,7 @@ extends Control
 @onready var mod_downloader: HTTPRequest = %ModDownloader
 var already_patched: bool
 var config = ConfigFile.new()
-var offline_mode: bool = false
+var config_loaded: bool = true
 var steam_path_warning_read: bool = false
 
 var config_file_path = ProjectSettings.globalize_path("res://config.ini")
@@ -48,7 +48,7 @@ func _ready() -> void:
 	var err = config.load(ProjectSettings.globalize_path("res://config.ini"))
 	
 	if err != OK:
-		offline_mode = true
+		config_loaded = false
 	
 	var last_patched_path = config.get_value("Settings", "last_patched_path", "")
 	patched_game_line.text = last_patched_path
@@ -307,7 +307,7 @@ func _on_desktop_shortcut_button_pressed() -> void:
 	_extra_check()
 
 func _on_next_button_pressed() -> void:
-	if %InstallButton.text == "Modify" and offline_mode:
+	if %InstallButton.text == "Modify" and !config_loaded:
 		%InstallButton.disabled = true
 		%Placeholder.text = "Failed to fetch index and your install is already patched.\nRestart the app to try refetching mods."
 

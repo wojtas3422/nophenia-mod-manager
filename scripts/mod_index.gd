@@ -10,14 +10,23 @@ func _ready():
 	var err = config.load(ProjectSettings.globalize_path("res://config.ini"))
 	
 	if err != OK:
-		root_node.offline_mode = true
+		root_node.config_loaded = false
 	
 	var index_url = config.get_value("Settings", "index_url", "")
 	
-	if !root_node.offline_mode:
+	if root_node.config_loaded:
 		$HTTPRequest.request(index_url)
 	else:
 		%Placeholder.text = "Failed to fetch index, config file missing.\nPress install to install the mod loader without mods."
+
+func _load_local_index_files() -> void:
+	var index_files: PackedStringArray = DirAccess.get_files_at(ProjectSettings.globalize_path("res://local_indexes"))
+	for file in index_files:
+		if file.get_extension() == "json":
+			var file_open = FileAccess.open("res://local_indexes".path_join(file), FileAccess.READ)
+			var file_str = file_open.get_as_text()
+			var json = JSON.parse_string(file_str)
+			_construct_mod_list(json)
 
 func _on_request_completed(result, response_code, headers, body) -> void:
 	if response_code != 200:
