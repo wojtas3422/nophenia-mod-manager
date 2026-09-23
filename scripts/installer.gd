@@ -18,6 +18,8 @@ extends Control
 @onready var mod_downloader: HTTPRequest = %ModDownloader
 var already_patched: bool
 var config = ConfigFile.new()
+var offline_mode: bool = false
+var steam_path_warning_read: bool = false
 
 var config_file_path = ProjectSettings.globalize_path("res://config.ini")
 
@@ -46,10 +48,11 @@ func _ready() -> void:
 	var err = config.load(ProjectSettings.globalize_path("res://config.ini"))
 	
 	if err != OK:
-		OS.alert("Failed to load loader config", "Error!")
-		get_tree().quit() # TODO don't exit if the index fails
+		offline_mode = true
 	
-	patched_game_line.text = config.get_value("Settings", "last_patched_path")
+	var last_patched_path = config.get_value("Settings", "last_patched_path", "")
+	patched_game_line.text = last_patched_path
+	_on_patched_game_line_text_changed(last_patched_path)
 
 func find_steam_game_path() -> String:
 	var steam_path := ""
@@ -225,7 +228,8 @@ func _collect_mod_urls() -> Array[String]:
 	var mod_download_urls: Array[String]
 	
 	for mod in mods_container.get_children():
-		if mod.find_child("CheckBox").button_pressed:
+		
+		if mod.is_in_group("mod_button") and mod.find_child("CheckBox").button_pressed:
 			mod_download_urls.append(mod.download_url)
 	
 	return mod_download_urls
@@ -237,17 +241,15 @@ func _on_install_button_pressed() -> void:
 	var target_install_mods_folder = patched_game_line.text.path_join("mods")
 	install_button.disabled = true
 	if already_patched:
-		# Patched
-		#var mod_index_files: Array[String]
-		#for file in %mod_select.mod_files:
-			
-		#var local_files: Array[String] = DirAccess.get_files_at(patched_game_line.text.path_join("mods"))
-		#var files_to_delete: Array[String]
-		# TODO don't delete local mods
-		for file in DirAccess.get_files_at(patched_game_line.text.path_join("mods")):
-			if file.get_extension() == "zip": # fail safe in case something goes wrong, delete only zip files
+		## Patched
+		# Contains only zip names
+		var mod_index_files: Array[String] = %mod_select.mod_files
+		var local_files: PackedStringArray = DirAccess.get_files_at(patched_game_line.text.path_join("mods"))
+		
+		for file in local_files:
+			if file in mod_index_files and file.get_extension() == "zip": # zip extension failsafe, never too safe :niarotting:
 				DirAccess.remove_absolute(target_install_mods_folder.path_join(file))
-
+		
 		var mod_download_urls: Array[String] = _collect_mod_urls()
 		for url in mod_download_urls:
 			var filename = url.split("/")[-1]
@@ -256,9 +258,9 @@ func _on_install_button_pressed() -> void:
 			await mod_download_complete
 		
 		_copy_files(mods_storage_folder, patched_game_line.text.path_join("mods"))
-		OS.alert("Game modified succesfully.", "Patch status")
+		_on_patched_game_line_text_changed(%PatchedGameLine.text)
 	else:
-		# Not patched
+		## Not patched
 		if !%Placeholder.visible: # Placeholder is only hidden once the index loads, it's only visible once index loading goes wrong 
 			var mod_download_urls: Array[String] = _collect_mod_urls()
 			for url in mod_download_urls:
@@ -286,11 +288,15 @@ func _on_install_button_pressed() -> void:
 			if file.get_extension() == "zip": # fail safe in case something goes wrong, delete only zip files
 				DirAccess.remove_absolute(mods_storage_folder.path_join(file))
 		
-		OS.alert("Success!", "Patch status")
+		_on_patched_game_line_text_changed(%PatchedGameLine.text)
 	
 	config.set_value("Settings", "last_patched_path", patched_game_line.text)
 	config.save(config_file_path)
 	star_2.text = "[wave amp=60.0 freq=1 connected=1]✦"
+	install_button.disabled = false
+	%patched_dialog.visible = true
+	%mod_select.visible = false
+	
 
 func _extra_check():
 	if randi_range(0, 99 - min(counter, 90)) == 0:
@@ -301,14 +307,19 @@ func _on_desktop_shortcut_button_pressed() -> void:
 	_extra_check()
 
 func _on_next_button_pressed() -> void:
-	if orig_game_line.text == patched_game_line.text and !already_patched:
-		OS.alert("Patching the original install is not recommended as it is known to cause issues. Please pick a different directory for the patched game. Or press next to install anyway", "Warning")
+	if %InstallButton.text == "Modify" and offline_mode:
+		%InstallButton.disabled = true
+		%Placeholder.text = "Failed to fetch index and your install is already patched.\nRestart the app to try refetching mods."
+
+	if orig_game_line.text == patched_game_line.text and !already_patched and !steam_path_warning_read:
+		OS.alert("Patching the original install is not recommended as it is known to cause issues. Please pick a different directory for the patched game. Or press next again to bypass this warning.", "Warning")
+		steam_path_warning_read = true
 	else:
 		if already_patched:
 			var mod_files: PackedStringArray = DirAccess.get_files_at(patched_game_line.text.path_join("mods"))
 			var mod_index_container = %ModContainer
 			for mod in mod_index_container.get_children():
-				if mod.download_url.split("/")[-1] in mod_files:
+				if mod.is_in_group("mod_button") and mod.download_url.split("/")[-1] in mod_files:
 					mod.find_child("CheckBox").button_pressed = true
 		path_select_screen.visible = false
 		mod_select_screen.visible = true
@@ -316,3 +327,13 @@ func _on_next_button_pressed() -> void:
 
 func _on_mod_downloader_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	mod_download_complete.emit()
+
+
+func _on_change_mods_button_pressed() -> void:
+	%patched_dialog.visible = false
+	%mod_select.visible = true
+
+
+func _on_open_folder_button_pressed() -> void:
+	OS.shell_open(%PatchedGameLine.text)
+	get_tree().quit()

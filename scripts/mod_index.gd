@@ -4,17 +4,20 @@ extends Node
 var mod_files: Array[String]
 var config = ConfigFile.new()
 var mods_data: Variant
+@onready var root_node: Control = self.owner
 
 func _ready():
 	var err = config.load(ProjectSettings.globalize_path("res://config.ini"))
 	
 	if err != OK:
-		OS.alert("Failed to load mod index url", "Error!")
-		get_tree().quit() # TODO don't exit if the index fails
+		root_node.offline_mode = true
 	
-	var index_url: String = config.get_value("Settings", "index_url")
+	var index_url = config.get_value("Settings", "index_url", "")
 	
-	$HTTPRequest.request(index_url)
+	if !root_node.offline_mode:
+		$HTTPRequest.request(index_url)
+	else:
+		%Placeholder.text = "Failed to fetch index, config file missing.\nPress install to install the mod loader without mods."
 
 func _on_request_completed(result, response_code, headers, body) -> void:
 	if response_code != 200:
@@ -25,7 +28,7 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 	_construct_mod_list(json)
 	
 func _construct_mod_list(mods) -> void:
-	%Placeholder.queue_free()
+	%Placeholder.visible = false
 	var mod_button_scene = preload("res://scenes/mod_button.tscn")
 	for mod in mods:
 		var mod_button_instance = mod_button_scene.instantiate()

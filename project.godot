@@ -31,6 +31,7 @@ window/per_pixel_transparency/allowed=true
 [global_group]
 
 screen=""
+mod_button=""
 
 [physics]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3haf1upjpc3h" path="res://scripts/mod_button_constructor.gd" id="1_e4ms1"]
 
-[node name="mod_button" type="HBoxContainer" unique_id=740857981]
+[node name="mod_button" type="HBoxContainer" unique_id=740857981 groups=["mod_button"]]
 alignment = 1
 script = ExtResource("1_e4ms1")
 
