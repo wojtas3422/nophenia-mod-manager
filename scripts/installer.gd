@@ -116,15 +116,12 @@ func _fetch_exec(path: String) -> String:
 
 func _on_orig_game_line_text_changed(new_text: String) -> void:
 	if _fetch_exec(new_text) != "":
-		star_0.text = _replace_color(star_0.text, "white")
 		valid_orig = true
 	else:
-		star_0.text = _replace_color(star_0.text, "#818589")
 		valid_orig = false
 
 func _on_patched_game_line_text_changed(new_text: String) -> void:
 	if new_text != "" and DirAccess.dir_exists_absolute(new_text):
-		#star_1.text = _replace_color(star_0.text, "white")
 		valid_patched = true
 		if DirAccess.dir_exists_absolute(new_text.path_join("mods")):
 			already_patched = true
@@ -133,7 +130,6 @@ func _on_patched_game_line_text_changed(new_text: String) -> void:
 			already_patched = false
 			%InstallButton.text = "Install"
 	else:
-		#star_1.text = _replace_color(star_0.text, "#818589")
 		valid_patched = false
 
 func _copy_files(from: String, to: String) -> void:
@@ -190,7 +186,6 @@ func _extract() -> bool:
 		status = OS.execute(exec_path, arguments)
 	if status != 0:
 		OS.alert("Failed to extract", "Patch status")
-		for star in [star_0, star_1, star_2]: star.text = _replace_color(star.text, "#FFB19E")
 		return false
 	DirAccess.rename_absolute(patched_game_line.text.path_join(".godot"), patched_game_line.text.path_join("godot"))
 	return true
@@ -292,7 +287,6 @@ func _on_install_button_pressed() -> void:
 	
 	config.set_value("Settings", "last_patched_path", patched_game_line.text)
 	config.save(config_file_path)
-	star_2.text = "[wave amp=60.0 freq=1 connected=1]✦"
 	install_button.disabled = false
 	%patched_dialog.visible = true
 	%mod_select.visible = false
